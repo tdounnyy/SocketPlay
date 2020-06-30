@@ -35,4 +35,24 @@ class Server {
             e.printStackTrace();
         }
     }
+
+    public void read() {
+        while (true) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                break;
+            }
+            System.out.println("while");
+        }
+    }
+
+    public void disconnect() {
+        try {
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

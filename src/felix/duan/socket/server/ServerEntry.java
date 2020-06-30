@@ -4,6 +4,7 @@ import felix.duan.socket.util.Consts;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Arrays;
 
 class ServerEntry {
 
@@ -18,5 +19,7 @@ class ServerEntry {
         }
         server.printServerSocket();
         server.listen();
-    }
+//        server.read();
+        server.disconnect();
+   }
 }

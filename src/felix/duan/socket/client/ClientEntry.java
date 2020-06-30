@@ -17,6 +17,19 @@ class ClientEntry {
             Runtime.getRuntime().exit(-1);
         }
 
-        client.isConnected();
+        while (true) {
+            client.isConnected();
+            client.isClosed();
+            if (!client.isAlive()) {
+                client.close();
+                break;
+            }
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                break;
+            }
+        }
     }
 }
