@@ -5,10 +5,14 @@ import felix.duan.socket.server.ServerEntry;
 
 import java.net.UnknownHostException;
 
-class Entry {
+public class Entry {
     public static void main(String[] args) {
+        System.out.println("Entry.main " + args.length);
+        for (String arg : args) {
+            System.out.println("arg = " + arg);
+        }
         IEntryPoint entryPoint = null;
-        if (isServerMode(args[1])) {
+        if (isServerMode(args)) {
             entryPoint = new ServerEntry();
         } else {
             entryPoint = new ClientEntry();
@@ -22,8 +26,8 @@ class Entry {
         }
     }
 
-    private static boolean isServerMode(String arg) {
-        if ("server".equals(arg)) {
+    private static boolean isServerMode(String[] args) {
+        if (args != null && args.length > 0 && "server".equals(args[0])) {
             System.out.println("server mode");
             return true;
         } else {
