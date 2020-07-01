@@ -4,11 +4,13 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 class Server {
 
     private ServerSocket serverSocket = null;
-    private Socket socket = null;
+    private List<Socket> socketList = new ArrayList<>();
 
     public boolean init(int port, int backlog, InetAddress address) {
         try {
@@ -26,14 +28,17 @@ class Server {
         System.out.println("printServerSocket " + localPort + " " + inetAddress);
     }
 
-    public void listen() {
-        System.out.println("Server.start");
+    public Socket listen() {
+        Socket socket = null;
+        System.out.println("Server.listen");
         try {
             socket = serverSocket.accept();
-            System.out.println("Server.start after accept");
+            System.out.println("Server.listen accept " + socket);
+            socketList.add(socket);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return socket;
     }
 
     public void read() {
@@ -49,10 +54,13 @@ class Server {
     }
 
     public void disconnect() {
-        try {
-            socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        for (Socket socket : socketList) {
+            try {
+                socket.close();
+                System.out.println("Server.disconnect " + socket);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

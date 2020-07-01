@@ -1,14 +1,16 @@
 package felix.duan.socket.server;
 
+import felix.duan.socket.IEntryPoint;
 import felix.duan.socket.util.Consts;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 
-class ServerEntry {
+public class ServerEntry implements IEntryPoint {
 
-    public static void main(String[] args) throws UnknownHostException {
+    @Override
+    public void start() throws UnknownHostException {
         InetAddress address = InetAddress.getLocalHost();
         int port = Consts.PORT;
 
@@ -18,8 +20,9 @@ class ServerEntry {
             Runtime.getRuntime().exit(-1);
         }
         server.printServerSocket();
-        server.listen();
+        while (true) {
+            server.listen();
+        }
 //        server.read();
-        server.disconnect();
-   }
+    }
 }

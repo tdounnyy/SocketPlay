@@ -1,13 +1,14 @@
 package felix.duan.socket.client;
 
+import felix.duan.socket.IEntryPoint;
 import felix.duan.socket.util.Consts;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-class ClientEntry {
+public class ClientEntry implements IEntryPoint {
 
-    public static void main(String[] args) throws UnknownHostException {
+    public void start() throws UnknownHostException {
         InetAddress address = InetAddress.getLocalHost();
         int port = Consts.PORT;
 
