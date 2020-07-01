@@ -1,12 +1,14 @@
 package felix.duan.socket.client;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 
 class Client {
 
     private Socket socket = null;
+    private OutputStream os;
 
     public Client() {
 
@@ -15,6 +17,7 @@ class Client {
     public boolean init(InetAddress address, int port) {
         try {
             socket = new Socket(address, port);
+            os = socket.getOutputStream();
             return true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -45,9 +48,20 @@ class Client {
 
     public void close() {
         try {
+            os.close();
             socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void greeting() {
+        String hello = "client: hello server";
+        try {
+            os.write(hello.getBytes("utf-8"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }
