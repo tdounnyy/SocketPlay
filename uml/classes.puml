@@ -1,0 +1,89 @@
+@startuml
+
+interface Connection {
+    connect()
+    close()
+    read(byte[]): int
+    write(byte[])
+    boolean: isConnected()
+}
+
+interface IServerSide
+
+interface IServerListener {
+    listen()
+}
+
+class SocketConnection {
+    Socket socket
+    InputStream inputStream
+    OutputStream outputStream
+    byte[] buffer
+}
+
+class ConnectionWaiter {
+    ServerSocket serverSocket
+    ConnectConfig connectConfig
+    init()
+}
+
+class ConnectConfig {
+    String address
+    String port
+}
+
+class ServerConnectionManager {
+    ConnectionWaiter waiter
+    List<Connection> connectionList
+    closeAll()
+}
+
+interface ISession {
+    loop()
+    stop()
+    isLooping()
+    isStopped()
+    String myAddress()
+    String peerAddress()
+}
+
+class Session {
+    Thread thread
+    Connection connection
+    String myAddress
+    String peerAddress
+    boolean isHost
+    Connection getConnection()
+}
+
+class ServerSessionManager {
+    List<Session> sessionList
+    MessageQueue messageQueue
+    MessageDispatcher messageDispatcher
+}
+
+class MessageDispatcher {
+    LinkedBlockingQueue messageQueue
+}
+
+class Chat {
+    Session session
+    sendMsg()
+}
+
+class Message {
+    int type
+    byte[] data
+}
+'''''''''''''''''''''''
+
+IServerSide <|-- ServerConnectionManager
+Connection <|-- SocketConnection
+IServerListener <|-- ConnectionWaiter
+IServerSide <|-- ConnectionWaiter
+SocketConnection . ConnectConfig
+ServerConnectionManager <- ConnectionWaiter
+ServerSessionManager -|> IServerSide
+ISession <|-- Session
+ServerSessionManager .. MessageDispatcher
+@enduml
